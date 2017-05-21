@@ -24,5 +24,22 @@ class PlayerBoard
       @board = hash
     end
 
+  def set_ship1 #private
+    @board
+    ship_coord = gets.chomp
+    board[ship_coord] = "S"
+    @board
+    #next, build out next input with constraints
+  end
+
+  def set_ship2 #private
+  end
+
+
 
 end
+
+# instance = PlayerBoard.new
+# instance.setup_board(4)
+#
+# require 'pry'; binding.pry
