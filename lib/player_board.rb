@@ -125,7 +125,7 @@ class PlayerBoard
   end
 
 end
-# instance = PlayerBoard.new
-# instance.setup_board(4)
-#
+instance = PlayerBoard.new
+# instance.set_player_board
+
 # require 'pry'; binding.pry
