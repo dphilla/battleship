@@ -35,6 +35,38 @@ class PlayerBoard
     @board
   end
 
+  def set_ship2 #inlcude next_coord_is_repeat, rewrite second_coord_valid for +/-2, blocking wrapping around board
+    ship_coord = gets.chomp
+    coordinate_is_on_board(ship_coord) # and is not filled
+    board[ship_coord] = "S"
+    valid_coord = next_coord_is_repeat?(ship_coord)
+    valid_coord = end_coord_is_valid?(ship_coord, valid_coord) # and is not filled
+    board[end_coord] = "S"
+    #fill interum spot on board with method here, if value of that key == "S", no good, in fact check all methods for this
+  end
+
+  #make private 
+  def end_coord_is_valid?(ship_coord, valid_coord)
+    ship_coord
+    next_coord = valid_coord
+    letter_check = Array("A".."Z")
+      coord_is_good = false; until coord_is_good == true
+        if letter_check[letter_check.index(ship_coord[0])+2] == next_coord[0] || letter_check[letter_check.index(ship_coord[0])-2] == next_coord[0]
+          coord_is_good = true
+          next_coord
+        elsif ship_coord[1].to_i + 2 == next_coord[1].to_i || ship_coord[1].to_i - 2 == next_coord[1].to_i
+          coord_is_good = true
+          next_coord
+        else
+          coord_is_good = false
+          puts "That is not a valid coordinate"
+          next_coord = gets.chomp
+        end
+      end
+    next_coord
+  end
+
+
 #submethods for ^^ make private
     def coordinate_is_on_board(coord)
       until valid == true
@@ -82,14 +114,9 @@ class PlayerBoard
     next_coord
   end
 
-  def set_ship2 #inlcude next_coord_is_repeat, rewrite second_coord_valid for +/-2, blocking wrapping around board
-  end
 
 
-
-end
-
-instance = PlayerBoard.new
-instance.setup_board(4)
-
-require 'pry'; binding.pry
+# instance = PlayerBoard.new
+# instance.setup_board(4)
+#
+# require 'pry'; binding.pry
