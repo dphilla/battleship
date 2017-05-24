@@ -1,10 +1,11 @@
 require_relative 'computer_board'
 require_relative 'player_board'
+require_relative 'game_message'
 
 
 
 
-class BattleShip
+class BattleShip < Message::BattleMessage
   attr_accessor :player_board,
                 :comp_board
 
@@ -15,7 +16,6 @@ class BattleShip
 
   def whole_game
     start_game
-    setup_boards
       game_end = false
       until game_end == true
         player_shoots
@@ -28,32 +28,51 @@ class BattleShip
   #private
 
   def start_game
-
+    start_message
+    start = false
+    until start == true
+      start_input = gets.chomp
+      if start_input == "p" || start_input == "play"
+        setup_boards; start = true
+      elsif start_input == "i" || start_input == "instructions"
+        general_instructions
+      elsif start_input == "q" || start_input == "quit"
+        game_over; start = true # how do I make this section throw to ending the game without play?
+      else
+        puts "That is not a valid choice. Try again."
+      end
+    end
   end
+
+
+#make functional AI,
+#shoots, through end game
+#build display coords
+
 
   def setup_boards
     # @comp_board = @comp_board.set_comp_board
     @player_board = @player_board.set_player_board
   end
 
-
-  def shot_sequence #is this necessary?
-
-
-  end
-
   def player_shoots
 
   end
+
 
   def computer_shoots
 
   end
 
+
   def end_game
     puts congrats_message
     #number of shots taken
     #total gameplay time
+  end
+
+  def end_game_no_play
+
   end
 
   def print_player_board(state_of_board)
@@ -66,6 +85,7 @@ class BattleShip
   end
 
   def print_gridd
+    #this needs to be changed to account for nils
     puts ". 1 2 3 4"
     print "A "
     player_board.values[0..4].each { |x| print x.to_s +  " "}

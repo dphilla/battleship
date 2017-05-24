@@ -1,6 +1,7 @@
 # require_relative 'battleship'
+require_relative 'game_message'
 
-class PlayerBoard
+class PlayerBoard < Message::BattleMessage
   attr_accessor :board
 
   def initialize
@@ -9,7 +10,9 @@ class PlayerBoard
 
   def set_player_board
     setup_board(4)
+    player_ship_placement_instructions_two_unit
     set_ship1
+    player_ship_placement_instructions_three_unit
     set_ship2
   end
 
@@ -39,6 +42,7 @@ class PlayerBoard
     valid_coord = second_coord_valid?(ship_coord, valid_coord)
     board[valid_coord] = "S"
     @board
+    #new moethod(from where?) your board looks like this:
   end
 
   def set_ship2 #inlcude next_coord_is_repeat, rewrite second_coord_valid for +/-2, blocking wrapping around board
@@ -50,6 +54,7 @@ class PlayerBoard
     board[valid_coord] = "S"
     #fill interum spot on board with method here, if value of that key == "S", no good, in fact check all methods for this
     @board
+    #new_method(from where?): your board looks like this:
   end
 
 
