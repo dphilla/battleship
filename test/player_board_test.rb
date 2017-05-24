@@ -19,7 +19,7 @@ class PlayerBoardTest < Minitest::Test
     assert_equal expected, result
   end
 
-  def can_input_ship_coords
+  def test_can_input_ship_coords
     skip
     instance = PlayerBoard.new
     input = instance.set_ship1
@@ -27,4 +27,14 @@ class PlayerBoardTest < Minitest::Test
     result = input["A1"]
     assert_equal = expected, result
   end
+
+  def test_can_put_in_2_coordinate_ships
+    skip
+  end
+
+  def test_can_catch_bad_two_coordinate_ships #including wrapping around the board (maybe just exclude A-1 types of cases)
+    skip
+  end
+
+
 end

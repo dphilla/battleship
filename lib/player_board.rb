@@ -7,6 +7,12 @@ class PlayerBoard
     @board = nil
   end
 
+  def set_player_board
+    setup_board(4)
+    set_ship1
+    set_ship2
+  end
+
   def setup_board(size)
       letters = Array ('A'..'Z')
       hash = {}
@@ -46,7 +52,9 @@ class PlayerBoard
     @board
   end
 
-  #make private
+
+  private
+
   def end_coord_is_valid?(ship_coord, valid_coord)
     ship_coord
     next_coord = valid_coord
@@ -117,7 +125,7 @@ class PlayerBoard
   end
 
 end
-instance = PlayerBoard.new
-instance.setup_board(4)
-
-require 'pry'; binding.pry
+# instance = PlayerBoard.new
+# instance.setup_board(4)
+#
+# require 'pry'; binding.pry
