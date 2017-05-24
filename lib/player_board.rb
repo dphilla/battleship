@@ -41,11 +41,12 @@ class PlayerBoard
     board[ship_coord] = "S"
     valid_coord = next_coord_is_repeat?(ship_coord)
     valid_coord = end_coord_is_valid?(ship_coord, valid_coord) # and is not filled
-    board[end_coord] = "S"
+    board[valid_coord] = "S"
     #fill interum spot on board with method here, if value of that key == "S", no good, in fact check all methods for this
+    @board
   end
 
-  #make private 
+  #make private
   def end_coord_is_valid?(ship_coord, valid_coord)
     ship_coord
     next_coord = valid_coord
@@ -69,6 +70,7 @@ class PlayerBoard
 
 #submethods for ^^ make private
     def coordinate_is_on_board(coord)
+      valid = false
       until valid == true
         if board.keys.include?(coord) == false
           puts "That one is not on the board!"
@@ -114,9 +116,8 @@ class PlayerBoard
     next_coord
   end
 
+end
+instance = PlayerBoard.new
+instance.setup_board(4)
 
-
-# instance = PlayerBoard.new
-# instance.setup_board(4)
-#
-# require 'pry'; binding.pry
+require 'pry'; binding.pry
