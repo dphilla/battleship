@@ -7,13 +7,13 @@ module Message
       puts "Would you like to (p)lay, read the (i)nstructions, or (q)uit?"
     end
 
-    def general_instructions #this needs to be filled out well
-      puts "These are general_instructions
-      .....to continue, enter (p)lay, or (q)uit."
+    def general_instructions
+      puts "These are general_instructions...
+      google: How to play battleship.....to continue, enter (p)lay, or (q)uit."
     end
 
     def player_ship_placement_instructions_two_unit
-      puts "I have laid out my ships on thi grid." + "\n"
+      puts "I have laid out my ships on the grid." + "\n"
       puts "You now need to layout your two ships." + "\n"
       puts "The first is two units long and the" + "\n"
       puts "second is three units long." + "\n"
@@ -57,7 +57,3 @@ module Message
 
   end
 end
-
-# instance = Message::BattleMessage.new
-# require 'pry'; binding.pry
-# instance.player_ship_placement_instructions

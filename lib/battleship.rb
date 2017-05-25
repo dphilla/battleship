@@ -45,11 +45,6 @@ class BattleShip < Message::BattleMessage
     end
   end
 
-
-#build display methods, inegrate
-#run top to bottom
-
-
   def setup_boards
     @comp_board = @comp_board.set_comp_board
     @player_board = @player_board.set_player_board
@@ -72,13 +67,12 @@ class BattleShip < Message::BattleMessage
     make_game_end(@comp_board)
   end
 
-
   def computer_shoots
     shot = @player_board.keys.sample
     if @player_board[shot] == "S"
       @player_board[shot] = "H"
     elsif @player_board[shot] == "H" || @player_board[shot] == "M"
-      computer_shoots  #yes! recursion! woooo!
+      computer_shoots
     else
       @player_board[shot] = "M"
     end
@@ -109,54 +103,35 @@ class BattleShip < Message::BattleMessage
     end
   end
 
-  def end_game
-    puts congrats_message
-    #number of shots taken
-    #total gameplay time
-  end
-
-  def end_game_no_play
-
-  end
-
-  def print_player_board(state_of_board)
-    state_of_board
-  end
-
-  def print_comp_cord(state_of_board)
-    state_of_board
-
-  end
-
-  def print_gridd #Why cant this call on comp_board hash, fix after fixing stack error
+  def print_gridd #THIS DOESN'T WORK!
     @comp_board
-    if @comp_board.values.include?("S")   # how can I do this without changing the @comp_board_hash
-      @comp_board.values.map.with_index do |x, i|
-        if x == "S"
-          @comp_board.delete_at(i)
-          @comp_board.insert(i, " ")
-        else
-        end
+    if @comp_board.values.include?("S")
+      @comp_board =  @comp_board.each do |value|
+      if value == "S"
+        new  = @comp_board.replace(value)
+        @comp_board[i] = " "
+      elsif value == nil
+        value = " "
+        end #replace needs to be something like gsub, but for hashes
       end
+      @comp_board
     end
-
-    puts "\nYour turn! \n===========\n"
+    @comp_board
+    puts "\nIt's your turn! \n===========\n"
     puts ". 1 2 3 4"
     print "A "
-    temp_hash.values[0..4].each { |x| print x.to_s +  " "}
+    @comp_board.values[0..4].each { |x| print x.to_s +  " "}
     print "\nB "
-    temp_hash.values[4..7].each { |x| print x.to_s +  " "}
+    @comp_board.values[4..7].each { |x| print x.to_s +  " "}
     print "\nC "
-    temp_hash.values[8..11].each { |x| print x.to_s +  " "}
+    @comp_board.values[8..11].each { |x| print x.to_s +  " "}
     print "\nD "
-    temp_hash.values[12..15].each { |x| print x.to_s +  " "}
+    @comp_board.values[12..15].each { |x| print x.to_s +  " "}
     puts "\n===========\n"
+    @comp_board
   end
 
-
-
-    # do I need a similar (to ^^) for comp?
 end
 
 instance = BattleShip.new
-require 'pry'; binding.pry
+instance.whole_game

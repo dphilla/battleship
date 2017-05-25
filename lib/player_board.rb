@@ -33,7 +33,7 @@ class PlayerBoard < Message::BattleMessage
       @board = hash
     end
 
-  def set_ship1 #need to check all edge cases (in restraints)
+  def set_ship1
     ship_input = verify_input_structure
     input1 = ship_input[0]
     input2 = ship_input[1]
@@ -43,25 +43,23 @@ class PlayerBoard < Message::BattleMessage
     valid_coord = second_coord_valid?(input1, input2)
       board[valid_coord] = "S"
       @board
-    #new moethod(from where?) your board looks like this:
   end
 
-  def set_ship2 #inlcude next_coord_is_repeat, rewrite second_coord_valid for +/-2, blocking wrapping around board
+  def set_ship2
     ship_input = verify_input_structure
     input1 = ship_input[0]
     input2 = ship_input[1]
     coordinate_is_on_board(input1)
       board[input1] = "S"
     valid_coord = next_coord_is_repeat?(input1, input2)
-    valid_coord = end_coord_is_valid?(input1, input2) # and is not filled
+    valid_coord = end_coord_is_valid?(input1, input2)
       board[valid_coord] = "S"
     fill_between_coordinates(input1, input2)
     @board
-    #new_method(from where?): your board looks like this:
   end
 
-  def verify_input_structure    #this could be better
-      ship_input = gets.chomp.upcase #this is the only point of entry for user input
+  def verify_input_structure
+      ship_input = gets.chomp.upcase
         if ship_input.length == 5 || 6
           ship_input = ship_input.split(" ")
           ship_input
@@ -92,7 +90,7 @@ class PlayerBoard < Message::BattleMessage
     next_coord
   end
 
-  def fill_between_coordinates(input1, input2) #THIS IS THE LAST PART OF HARD CODING YOU HAVE TO DO!
+  def fill_between_coordinates(input1, input2)
     letter_check = Array("A".."Z")
       if input1[0] == input2[0]
         num = input1[1].to_i + 1
@@ -105,7 +103,6 @@ class PlayerBoard < Message::BattleMessage
     board[inner_key] = "S"
   end
 
-#submethods for ^^ make private
     def coordinate_is_on_board(coord)
       valid = false
       until valid == true
@@ -129,7 +126,7 @@ class PlayerBoard < Message::BattleMessage
     input2
   end
 
-  def second_coord_valid?(ship_coord, valid_coord) #make loop until good input
+  def second_coord_valid?(ship_coord, valid_coord)
     ship_coord
     next_coord = valid_coord
     letter_check = Array("A".."Z")
@@ -148,11 +145,4 @@ class PlayerBoard < Message::BattleMessage
       end
     next_coord
   end
-
 end
-# instance = PlayerBoard.new
-
-
-
-
-# require 'pry'; binding.pry
