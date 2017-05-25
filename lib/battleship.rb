@@ -55,15 +55,19 @@ class BattleShip < Message::BattleMessage
   end
 
   def player_shoots
+    print_player_map
+    how_to_shoot_instructions
     shot = gets.chomp
     coordinate_is_on_board(shot)
     if @comp_board[shot] == "S"
       @comp_board[shot] = "H"
+      hit_message
     elsif @comp_board[shot] == "H" || @comp_board[shot] == "M"
       puts "you already shot at that location!"
       player_shoots  #yes! recursion! woooo!
     else
       @comp_board[shot] = "M"
+      miss_message
     end
     make_game_end(@comp_board)
   end
@@ -97,7 +101,9 @@ class BattleShip < Message::BattleMessage
   def make_game_end(which_board)
     if which_board.values.include?("S") == false
       game_end = true
+      congrats_message
       end_game
+      game_over
     else
       game_end = false
     end
@@ -124,21 +130,24 @@ class BattleShip < Message::BattleMessage
 
   def print_gridd
     #this needs to be changed to account for nils
+    #this also needs to be changed to not show ships
+    #to the player, but rather just Hs or Ms
+    #also, maybe show your board and the comps (different sized?)?
     puts ". 1 2 3 4"
     print "A "
-    player_board.values[0..4].each { |x| print x.to_s +  " "}
+    @player_board.values[0..4].each { |x| print x.to_s +  " "}
     print "\nB "
-    player_board.values[4..7].each { |x| print x.to_s +  " "}
+    @player_board.values[4..7].each { |x| print x.to_s +  " "}
     print "\nC "
-    player_board.values[8..11].each { |x| print x.to_s +  " "}
+    @player_board.values[8..11].each { |x| print x.to_s +  " "}
     print "\nD "
-    player_board.values[12..15].each { |x| print x.to_s +  " "}
+    @player_board.values[12..15].each { |x| print x.to_s +  " "}
   end
 
-  def print_player_map(board) #make text more interesting, where does this go
+  def print_player_map #make text more interesting, where does this go
       puts "\nYour turn! \n===========\n"
-      print_grid(board)
-      output.print "\n===========\nEnter a coordinate to shoot at:"
+      print_gridd
+      puts "\n===========\n"
     end
 
     # do I need a similar (to ^^) for comp?

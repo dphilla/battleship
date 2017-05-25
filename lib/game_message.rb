@@ -37,11 +37,11 @@ module Message
       puts "swing-and-a-miss! keep at it! It's never too late to stop sucking."
     end
 
-    def hit_and_sink_message
+    def hit_and_sink_message #this will require a new method
       puts "you downed one of your opponents ship! Way to go!"
     end
 
-    def sorry_message
+    def sorry_message #this will also require a new message
       puts "Welp, you have let your navy down, literally and figuratively. You lose"
     end
 
