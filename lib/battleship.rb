@@ -18,6 +18,7 @@ class BattleShip < Message::BattleMessage
     start_game
       game_end = false
       until game_end == true
+        print_gridd
         player_shoots
         computer_shoots
       end
@@ -55,7 +56,6 @@ class BattleShip < Message::BattleMessage
   end
 
   def player_shoots
-    print_player_map
     how_to_shoot_instructions
     shot = gets.chomp
     coordinate_is_on_board(shot)
@@ -128,27 +128,32 @@ class BattleShip < Message::BattleMessage
 
   end
 
-  def print_gridd
-    #this needs to be changed to account for nils
-    #this also needs to be changed to not show ships
-    #to the player, but rather just Hs or Ms
-    #also, maybe show your board and the comps (different sized?)?
+  def print_gridd #Why cant this call on comp_board hash, fix after fixing stack error
+    @comp_board
+    if @comp_board.values.include?("S")   # how can I do this without changing the @comp_board_hash
+      @comp_board.values.map.with_index do |x, i|
+        if x == "S"
+          @comp_board.delete_at(i)
+          @comp_board.insert(i, " ")
+        else
+        end
+      end
+    end
+
+    puts "\nYour turn! \n===========\n"
     puts ". 1 2 3 4"
     print "A "
-    @player_board.values[0..4].each { |x| print x.to_s +  " "}
+    temp_hash.values[0..4].each { |x| print x.to_s +  " "}
     print "\nB "
-    @player_board.values[4..7].each { |x| print x.to_s +  " "}
+    temp_hash.values[4..7].each { |x| print x.to_s +  " "}
     print "\nC "
-    @player_board.values[8..11].each { |x| print x.to_s +  " "}
+    temp_hash.values[8..11].each { |x| print x.to_s +  " "}
     print "\nD "
-    @player_board.values[12..15].each { |x| print x.to_s +  " "}
+    temp_hash.values[12..15].each { |x| print x.to_s +  " "}
+    puts "\n===========\n"
   end
 
-  def print_player_map #make text more interesting, where does this go
-      puts "\nYour turn! \n===========\n"
-      print_gridd
-      puts "\n===========\n"
-    end
+
 
     # do I need a similar (to ^^) for comp?
 end

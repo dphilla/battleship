@@ -39,7 +39,6 @@ class ComputerBoard
         set_ship1
       else
       end
-    coordinate_is_on_board(input1)
       board[input1] = "S"
     valid_coord = next_coord_is_repeat?(input1, input2)
     valid_coord = second_coord_valid?(input1, input2)
@@ -51,11 +50,10 @@ class ComputerBoard
   def set_ship2 #inlcude next_coord_is_repeat, rewrite second_coord_valid for +/-2, blocking wrapping around board
     input1 = @board.keys.sample #only if value == nil here
     input2 = @board.keys.sample
-      if board[input1] || board[input2] == "S"
+      if board[input1] == "S"|| board[input2] == "S"
         set_ship2
       else
       end
-    coordinate_is_on_board(input1)
       board[input1] = "S"
     valid_coord = next_coord_is_repeat?(input1, input2)
     valid_coord = end_coord_is_valid?(input1, input2) # and is not filled
@@ -78,8 +76,8 @@ class ComputerBoard
           next_coord
         else
           coord_is_good = false
-          puts "That is not a valid coordinate"
-          set_comp_board
+          valid_coord = @board.keys.sample
+          end_coord_is_valid?(ship_coord, valid_coord)
         end
       end
     next_coord
@@ -99,23 +97,12 @@ class ComputerBoard
   end
 
 #submethods for ^^ make private
-    def coordinate_is_on_board(coord)
-      valid = false
-      until valid == true
-        if board.keys.include?(coord) == false
-          puts "That one is not on the board!"
-          set_comp_board
-        else
-          valid = true
-          coord
-        end
-      end
-    end
+
 
   def next_coord_is_repeat?(input1, input2)
         if input1[0] == input2[0] && input1[1] == input2[1]
-          puts "You already plugged in that coordinate!"
-          set_comp_board
+          input2 = @board.keys.sample
+          next_coord_is_repeat?(input1, input2)
         else
           valid_coord = true
         end
@@ -135,8 +122,8 @@ class ComputerBoard
           next_coord
         else
           coord_is_good = false
-          puts "That is not a valid coordinate"
-          set_comp_board
+          valid_coord = @board.keys.sample
+          second_coord_valid?(ship_coord, valid_coord)
         end
       end
     next_coord
