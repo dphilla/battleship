@@ -7,7 +7,7 @@ module Message
       puts "Would you like to (p)lay, read the (i)nstructions, or (q)uit?"
     end
 
-    def general_instructions
+    def general_instructions #this needs to be filled out well
       puts "These are general_instructions
       .....to continue, enter (p)lay, or (q)uit."
     end

@@ -34,31 +34,43 @@ class PlayerBoard < Message::BattleMessage
     end
 
   def set_ship1 #need to check all edge cases (in restraints)
-    @board
-    ship_coord = gets.chomp
-    coordinate_is_on_board(ship_coord)
-    board[ship_coord] = "S"
-    valid_coord = next_coord_is_repeat?(ship_coord)
-    valid_coord = second_coord_valid?(ship_coord, valid_coord)
-    board[valid_coord] = "S"
-    @board
+    ship_input = verify_input_structure
+    input1 = ship_input[0]
+    input2 = ship_input[1]
+    coordinate_is_on_board(input1)
+      board[input1] = "S"
+    valid_coord = next_coord_is_repeat?(input1, input2)
+    valid_coord = second_coord_valid?(input1, input2)
+      board[valid_coord] = "S"
+      @board
     #new moethod(from where?) your board looks like this:
   end
 
   def set_ship2 #inlcude next_coord_is_repeat, rewrite second_coord_valid for +/-2, blocking wrapping around board
-    ship_coord = gets.chomp
-    coordinate_is_on_board(ship_coord) # and is not filled
-    board[ship_coord] = "S"
-    valid_coord = next_coord_is_repeat?(ship_coord)
-    valid_coord = end_coord_is_valid?(ship_coord, valid_coord) # and is not filled
-    board[valid_coord] = "S"
-    #fill interum spot on board with method here, if value of that key == "S", no good, in fact check all methods for this
+    ship_input = verify_input_structure
+    input1 = ship_input[0]
+    input2 = ship_input[1]
+    coordinate_is_on_board(input1)
+      board[input1] = "S"
+    valid_coord = next_coord_is_repeat?(input1, input2)
+    valid_coord = end_coord_is_valid?(input1, input2) # and is not filled
+      board[valid_coord] = "S"
+    fill_between_coordinates(input1, input2)
     @board
     #new_method(from where?): your board looks like this:
   end
 
+  def verify_input_structure    #this could be better
+      ship_input = gets.chomp.upcase #this is the only point of entry for user input
+        if ship_input.length == 5 || 6
+          ship_input = ship_input.split(" ")
+          ship_input
+        else
+          puts "Oops! Try entering that again and watch your spaces and numbers!"
+          verify_input_structure
+        end
+  end
 
-  private
 
   def end_coord_is_valid?(ship_coord, valid_coord)
     ship_coord
@@ -74,12 +86,24 @@ class PlayerBoard < Message::BattleMessage
         else
           coord_is_good = false
           puts "That is not a valid coordinate"
-          next_coord = gets.chomp
+          set_player_board
         end
       end
     next_coord
   end
 
+  def fill_between_coordinates(input1, input2) #THIS IS THE LAST PART OF HARD CODING YOU HAVE TO DO!
+    letter_check = Array("A".."Z")
+      if input1[0] == input2[0]
+        num = input1[1].to_i + 1
+        inner_key = input1[0] + num.to_s
+        inner_key
+      else
+        next_index = letter_check.index(input1[0]) + 1
+        inner_key = letter_check[next_index] + input1[1]
+      end
+    board[inner_key] = "S"
+  end
 
 #submethods for ^^ make private
     def coordinate_is_on_board(coord)
@@ -87,7 +111,7 @@ class PlayerBoard < Message::BattleMessage
       until valid == true
         if board.keys.include?(coord) == false
           puts "That one is not on the board!"
-          coord = gets.chomp
+          set_player_board
         else
           valid = true
           coord
@@ -95,18 +119,14 @@ class PlayerBoard < Message::BattleMessage
       end
     end
 
-  def next_coord_is_repeat?(ship_coord)
-    ship_coord
-    valid_coord = false
-      until valid_coord == true
-      next_coord = gets.chomp
-        if ship_coord[0] == next_coord[0] && ship_coord[1] == next_coord[1]
+  def next_coord_is_repeat?(input1, input2)
+        if input1[0] == input2[0] && input1[1] == input2[1]
           puts "You already plugged in that coordinate!"
+          set_player_board
         else
           valid_coord = true
         end
-      end
-    next_coord
+    input2
   end
 
   def second_coord_valid?(ship_coord, valid_coord) #make loop until good input
@@ -123,14 +143,16 @@ class PlayerBoard < Message::BattleMessage
         else
           coord_is_good = false
           puts "That is not a valid coordinate"
-          next_coord = gets.chomp
+          set_player_board
         end
       end
     next_coord
   end
 
 end
-instance = PlayerBoard.new
-# instance.set_player_board
+# instance = PlayerBoard.new
+
+
+
 
 # require 'pry'; binding.pry
