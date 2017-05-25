@@ -45,25 +45,63 @@ class BattleShip < Message::BattleMessage
   end
 
 
-#make functional AI,
-#shoots, through end game
-#build display coords
+#build display methods, inegrate
+#run top to bottom
 
 
   def setup_boards
-    # @comp_board = @comp_board.set_comp_board
+    @comp_board = @comp_board.set_comp_board
     @player_board = @player_board.set_player_board
   end
 
   def player_shoots
-
+    shot = gets.chomp
+    coordinate_is_on_board(shot)
+    if @comp_board[shot] == "S"
+      @comp_board[shot] = "H"
+    elsif @comp_board[shot] == "H" || @comp_board[shot] == "M"
+      puts "you already shot at that location!"
+      player_shoots  #yes! recursion! woooo!
+    else
+      @comp_board[shot] = "M"
+    end
+    make_game_end(@comp_board)
   end
 
 
   def computer_shoots
-
+    shot = @player_board.keys.sample
+    if @player_board[shot] == "S"
+      @player_board[shot] = "H"
+    elsif @player_board[shot] == "H" || @player_board[shot] == "M"
+      computer_shoots  #yes! recursion! woooo!
+    else
+      @player_board[shot] = "M"
+    end
+    make_game_end(@player_board)
   end
 
+  def coordinate_is_on_board(coord)
+    valid = false
+    until valid == true
+      if @player_board.keys.include?(coord) == false
+        puts "That one is not on the board!"
+        coord = gets.chomp
+      else
+        valid = true
+        coord
+      end
+    end
+  end
+
+  def make_game_end(which_board)
+    if which_board.values.include?("S") == false
+      game_end = true
+      end_game
+    else
+      game_end = false
+    end
+  end
 
   def end_game
     puts congrats_message

@@ -16,6 +16,7 @@ class ComputerBoard
     set_ship2
   end
 
+
   def setup_board(size)
       letters = Array ('A'..'Z')
       hash = {}
@@ -35,7 +36,7 @@ class ComputerBoard
 
   def set_ship1 #need to check all edge cases (in restraints)
     @board
-    ship_coord = gets.chomp
+    ship_coord = @board.keys.sample
     coordinate_is_on_board(ship_coord)
     board[ship_coord] = "S"
     valid_coord = next_coord_is_repeat?(ship_coord)
@@ -45,7 +46,7 @@ class ComputerBoard
   end
 
   def set_ship2 #inlcude next_coord_is_repeat, rewrite second_coord_valid for +/-2, blocking wrapping around board
-    ship_coord = gets.chomp
+    ship_coord = @board.keys.sample
     coordinate_is_on_board(ship_coord) # and is not filled
     board[ship_coord] = "S"
     valid_coord = next_coord_is_repeat?(ship_coord)
@@ -72,7 +73,7 @@ class ComputerBoard
         else
           coord_is_good = false
           puts "That is not a valid coordinate"
-          next_coord = gets.chomp
+          next_coord = @board.keys.sample
         end
       end
     next_coord
@@ -85,7 +86,7 @@ class ComputerBoard
       until valid == true
         if board.keys.include?(coord) == false
           puts "That one is not on the board!"
-          coord = gets.chomp
+          coord = @board.keys.sample
         else
           valid = true
           coord
@@ -97,7 +98,7 @@ class ComputerBoard
     ship_coord
     valid_coord = false
       until valid_coord == true
-      next_coord = gets.chomp
+      next_coord = @board.keys.sample
         if ship_coord[0] == next_coord[0] && ship_coord[1] == next_coord[1]
           puts "You already plugged in that coordinate!"
         else
@@ -121,7 +122,7 @@ class ComputerBoard
         else
           coord_is_good = false
           puts "That is not a valid coordinate"
-          next_coord = gets.chomp
+          next_coord = @board.keys.sample
         end
       end
     next_coord
